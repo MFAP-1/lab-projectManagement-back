@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const DB_NAME = "projectManagementApp";
+const DB_NAME = "labProjectManagementApp";
 
 module.exports = mongoose
   .connect(`mongodb://localhost:27017/${DB_NAME}`)

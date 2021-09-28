@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const ProjectModel = require("../models/Project.model");
+const TaskModel = require("../models/Task.model");
 // Importando a definição de tipo dos _ids do Mongo
 const { ObjectId } = require("mongoose").Types;
 
@@ -86,9 +87,10 @@ router.delete("/project/:id", (req, res, next) => {
       if (result.deletedCount < 1) {
         return res.status(404).json({ msg: "Projeto não encontrado" });
       }
-
-      // Por convenção do HTTP, devemos retornar um objeto vazio no sucesso da deleção
-      return res.status(200).json({});
+      TaskModel.deleteMany({ projectId: ObjectId(req.params.id) }).then(() => {
+        // Por convenção do HTTP, devemos retornar um objeto vazio no sucesso da deleção
+        return res.status(200).json({});
+      });
     })
     .catch((err) => next(err));
 });
